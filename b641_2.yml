@@ -1,0 +1,10 @@
+#Запускаем MySQL
+- hosts: temp
+  gather_facts: true
+  tasks:
+    - name: Run mysql
+      systemd:
+        state: started
+        name: mysql-server
+
+

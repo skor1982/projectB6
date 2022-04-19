@@ -1,0 +1,16 @@
+#Установка Docker
+- hosts: temp
+  gather_facts: true
+  tasks:
+    - name: Install Docker
+      apt:
+        pkg:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+        state: present
+        update_cache: yes
+    - name: Run Docker
+      systemd:
+        state: started
+        name: docker
