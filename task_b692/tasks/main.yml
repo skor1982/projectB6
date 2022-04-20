@@ -1,0 +1,62 @@
+---
+# tasks file for task_b692
+#Работаем с Ubuntu 20.04
+
+- name: Install nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+    update_cache: yes
+    tags: 
+    - install_nginx
+
+- name: Stop nginx
+  ansible.builtin.systemd:
+    state: stopped
+    name: nginx
+  tags:
+    - install_nginx
+
+- name: Remove default config
+  ansible.builtin.file:
+    path: /etc/nginx/sites-available/default
+    state: absent
+  tags:
+    - install_nginx
+
+
+- name: Put our custom config
+  ansible.builtin.copy:
+    src: /home/corsair/Documents/projectB6/nginx_site_conf_b692
+    dest: /etc/nginx/sites-available/default
+    remote_src: yes
+  tags:
+    - install_nginx
+
+
+- name: Install php-fpm
+  ansible.builtin.apt:
+    name: php-fpm
+    state: present
+  tags:
+    - install_nginx
+
+
+- name: Run nginx
+  ansible.builtin.systemd:
+    state: started
+    name: nginx
+  tags:
+    - install_nginx
+
+
+- name: Change root directory
+  ansible.builtin.lineinfile:
+    path: /etc/nginx/sites-available/default
+    regexp: '^%root '
+    line: 'root /opt/nginx/ansible;'
+  tags:
+    - change_root
+  notify:
+    restart_nginx
+

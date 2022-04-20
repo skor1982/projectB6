@@ -1,0 +1,31 @@
+---
+# tasks file for dnsmasq
+#Работаем с Ubuntu 20.04
+
+- name: Install dnsmasq
+  ansible.builtin.apt:
+    name: dnsmasq
+    state: present
+    update_cache: yes
+
+- name: Stop dnsmasq
+  ansible.builtin.systemd:
+    state: stopped
+    name: dnsmasq
+
+- name: Remove default config
+  ansible.builtin.file:
+    path: /etc/dnsmasq.conf
+    state: absent
+
+- name: Put our custom config
+  ansible.builtin.copy:
+    src: /home/corsair/Documents/projectB6/dnsmasq.conf.b692
+    dest: /etc/dnsmasq.conf
+    remote_src: yes
+
+- name: Run dnsmasq
+  ansible.builtin.systemd:
+    state: started
+    name: dnsmasq
+

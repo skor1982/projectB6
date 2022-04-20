@@ -1,0 +1,8 @@
+#Работаем с Ubuntu 20.04
+#Хотя конфиг и будет заменен, по сути он тот же самый :)
+---
+- hosts: test
+  gather_facts: no
+  become: yes
+  roles:
+   - dnsmasq

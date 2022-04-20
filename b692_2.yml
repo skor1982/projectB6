@@ -1,0 +1,36 @@
+#Работаем с Ubuntu 20.04
+---
+- hosts: test
+  gather_facts: false
+  tasks:
+
+    - name: Ensure group "superusers" exists
+      ansible.builtin.group:
+        name: superusers
+        state: present
+
+    - name: Remove superusers from sudoers
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers
+        state: absent
+        regexp: '^%superusers'
+
+    -  name: Add superusers to sudoers
+       ansible.builtin.lineinfile:
+        path: /etc/sudoers
+        state: present
+        insertafter: EOF
+        line: '%superusers   ALL=(ALL) ALL'
+
+    - name: Create user
+      ansible.builtin.user:
+        name: user2
+        group: superusers
+
+    - name: Create user
+      ansible.builtin.user:
+        name: user3
+        group: superusers
+  
+
+

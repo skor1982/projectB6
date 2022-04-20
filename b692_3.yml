@@ -1,0 +1,11 @@
+#Работаем с Ubuntu 20.04
+---
+- hosts: test
+  gather_facts: false
+  tasks:
+  
+    - name: Install webserver
+      include_role:
+        name: task_b692
+      tags: install_nginx
+
