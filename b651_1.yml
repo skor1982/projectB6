@@ -1,0 +1,23 @@
+#Работаем с Ubuntu 20.04
+---
+ - hosts: temp
+ gather_facts: false
+ tasks:
+ - name: Create user
+   ansible.builtin.user:
+     name: user1
+
+ -name: Create ssh config dir
+  ansible.builtin.file:
+   path: /home/user1/.ssh
+   state: directory
+
+ -name: Add ssh pub key
+  ansible.builtin.copy:
+    src: /home/corsair/Documents/projectB6/id_rsa.pub.b651
+    dest: /home/user1/.ssh/id_rsa.pub
+    owner: user1
+    group: user1
+    mode: '0400'
+    remote_src: yes
+
