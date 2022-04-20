@@ -1,28 +1,28 @@
 #Работаем с Ubuntu 20.04
 ---
- - hosts: temp
- gather_facts: false
- tasks:
- - name Install postfix
-   ansible.builtin.apt:
-     name: postfix
-     state: present
-     update_cache: yes
-   tags:
-   - init
+ - hosts: test
+   gather_facts: false
+   tasks:
+   - name: Install postfix
+     ansible.builtin.apt:
+       name: postfix
+       state: present
+       update_cache: yes
+     tags:
+     - init
 
-  - name: Run postfix
-      systemd:
-        state: started
-        name: postfix
-    tags:
-    - init
+   - name: Run postfix
+     ansible.builtin.systemd:
+       state: started
+       name: postfix
+       tags:
+       - init
 
 
- - name Remove postfix
-   ansible.builtin.apt:
-     name: postfix
-     state: absent
-   tags:
-   - drop
+   - name: Remove postfix
+     ansible.builtin.apt:
+       name: postfix
+       state: absent
+     tags:
+     - drop
 
