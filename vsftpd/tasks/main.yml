@@ -1,0 +1,31 @@
+---
+# tasks file for vsftpd
+#Работаем с Ubuntu 20.04
+
+- name: Install vsftpd 
+  ansible.builtin.apt:
+    name: vsftpd
+    state: present
+    update_cache: yes
+
+- name: Stop vsftpd 
+  ansible.builtin.systemd:
+    state: stopped
+    name: vsftpd 
+
+- name: Remove default config
+  ansible.builtin.file:
+    path: /etc/vsftpd.conf
+    state: absent
+
+- name: Put our custom config
+  ansible.builtin.copy:
+    src: /home/corsair/Documents/projectB6/vsftpd.conf.b661
+    dest: /etc/vsftpd.conf
+    remote_src: yes
+
+- name: Run vsftpd 
+  ansible.builtin.systemd:
+    state: started
+    name: vsftpd
+
