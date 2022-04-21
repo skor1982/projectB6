@@ -21,6 +21,8 @@
         state: present
         insertafter: EOF
         line: '%superusers   ALL=(ALL) ALL'
+        validate: /usr/sbin/visudo -cf %s
+
 
     - name: Create user
       ansible.builtin.user:
